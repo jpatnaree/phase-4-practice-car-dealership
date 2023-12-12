@@ -73,8 +73,8 @@ def post_car():
         car = Car(
             make = data['make'],
             model = data['model'],
-            owner_id = data['owner_id'],
-            dealer_id = data['dealer_id']
+            owner_id = Owner.id,
+            dealer_id = Dealership.id
         )
         db.session.add(car)
         db.session.commit()
