@@ -29,15 +29,22 @@ class Car(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String, nullable=False)
     model = db.Column(db.String, nullable=False)
-    date_sold = db.Column(db.Date, nullable=False)
+    date_sold = db.Column(db.String, nullable=False)
+    # date_sold = db.Column(db.Date, nullable=False)
     
-    dealer_id = db.Column(db.Integer, db.ForeignKey('dealership_table.id'))
     owner_id = db.Column(db.Integer, db.ForeignKey('owner_table.id'))
+    dealer_id = db.Column(db.Integer, db.ForeignKey('dealership_table.id'))
     
-    serialize_rules = ('-owner.cars', '-dealer.cars')
+    serialize_rules = ('-owner.cars', '-dealer.cars',)
     
     owner = db.relationship('Owner', back_populates='cars')
     dealer = db.relationship('Dealership', back_populates='cars')
+    
+    @validates('model')
+    def validate_model(self, key, value):
+        if 25 >= len(value) >= 2 and value.istitle(): #between 2 -25 characters & title case
+            return value
+        raise ValueError({'error':'must be between 2 -25 characters & title case'})
     
 class Dealership(db.Model, SerializerMixin):
     __tablename__ = 'dealership_table'

@@ -21,7 +21,7 @@ if __name__ == '__main__':
         
         for _ in range(10):
             dealer = Dealership(
-                name = f'{faker.first_name()} LTD.',
+                name = f'{faker.company()} LTD.',
                 address = faker.address()
             )
             dealer_list.append(dealer)
@@ -41,7 +41,8 @@ if __name__ == '__main__':
             car = Car(
                 make = faker.last_name(),
                 model = faker.last_name(),
-                date_sold = faker.date_between(start_date='-5y', end_date='today'),
+                date_sold = str(faker.date_between(start_date='-5y', end_date='today')),
+                # date_sold = faker.date_between(start_date='-5y', end_date='today'),
                 dealer = rand_dealer,
                 owner = rand_owner
             )
@@ -50,15 +51,3 @@ if __name__ == '__main__':
         db.session.commit()
 
         print("Seeding complete!")
-
-        # for _ in range(0,20):
-        #     rand_receiver = choice(receiver_list)
-        #     rand_giver = choice(giver_list)
-        #     gift = Gift(name=faker.name(), price=(randint(1,1000)/100.0), receiver=rand_receiver, giver=rand_giver)
-        #     # gift = Gift(name=faker.commerce.product(), 
-        #     #             price=faker.commerce.price(), 
-        #     #             receiver=choice(receiver_list))
-        #     # gifts.append(gift)
-        #     db.session.add(gift)
-            
-        # db.session.commit()
